@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [ approve-command ]
 
+env:
+  GITHUB_EVENT_PATH_CUSTOM: /home/runner/work/_temp/_github_workflow/event-custom.json
+
 jobs:
   approve-command-dispatch:
     runs-on: ubuntu-latest
@@ -11,15 +14,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # pin@v2.4.2
 
-      - name: Approve Command Dispatch
+      - name: Get Issue Body
         env:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
-        run: echo "$PAYLOAD_CONTEXT"
-
-      - name: echo github event path
-        run: echo $GITHUB_EVENT_PATH
+          GITHUB_EVENT_PATH_CUSTOM: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
+        run: |
+          BODY=$(echo "$PAYLOAD_CONTEXT" | jq -r .github.payload.issue.body)
+          echo "{\"issue\": {\"body\": $BODY}}" > $GITHUB_EVENT_PATH_CUSTOM
 
       - name: GitHub Issue Parser
+        id: issue-parser
+        env:
+          GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
         uses: stefanbuck/github-issue-parser@f80b14f78892a66d7a35bba44f0a7d63bee03602 # pin@v2.0.4
         with:
           template-path: .github/ISSUE_TEMPLATE/model_request.yml
