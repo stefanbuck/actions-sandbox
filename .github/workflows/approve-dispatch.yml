@@ -20,6 +20,7 @@ jobs:
           echo "::set-output name=body::$BODY"
 
       - name: Issue Template Parser
+        id: issue-parser
         uses: GrantBirki/issue-template-parser@v3.0.2
         with:
           issue-body: ${{ steps.get-issue-body.outputs.body }}
