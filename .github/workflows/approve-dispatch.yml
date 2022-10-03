@@ -17,7 +17,7 @@ jobs:
         run: echo "$PAYLOAD_CONTEXT"
 
       - name: GitHub Issue Parser
-        uses: stefanbuck/github-issue-parser@7da1c3a96e2657d61f8fdd6555ee31be7410e617 # pin@v2.0.3
+        uses: stefanbuck/github-issue-parser@f80b14f78892a66d7a35bba44f0a7d63bee03602 # pin@v2.0.4
         with:
           template-path: .github/ISSUE_TEMPLATE/model_request.yml
 
