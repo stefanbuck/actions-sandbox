@@ -1,0 +1,14 @@
+name: Approve Command Dispatch
+
+on:
+  repository_dispatch:
+    types: [approve-command]
+
+jobs:
+  approve-command-dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve Command Dispatch
+        env:
+          PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+        run: echo "$PAYLOAD_CONTEXT"
