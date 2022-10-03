@@ -1,0 +1,12 @@
+name: comment test
+on:
+  issue_comment:
+    types: [ created ]
+jobs:
+  approve-command-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: debug
+        run: |
+          echo $GITHUB_EVENT_PATH
+          cat $GITHUB_EVENT_PATH
