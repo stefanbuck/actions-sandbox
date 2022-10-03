@@ -2,7 +2,7 @@ name: Approve Command Dispatch
 
 on:
   repository_dispatch:
-    types: [approve-command]
+    types: [ approve-command ]
 
 jobs:
   approve-command-dispatch:
@@ -12,3 +12,11 @@ jobs:
         env:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
         run: echo "$PAYLOAD_CONTEXT"
+
+      - name: Parse Issue Body
+        uses: peter-murray/issue-body-parser-action@eb155d18ca7753f18707fb034d419f3316ee7ee2 # pin@v2
+        id: issue_body_parser
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_id: ${{ github.event.client_payload.github.payload.issue.number }}
+          payload: yaml
