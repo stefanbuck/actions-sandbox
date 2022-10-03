@@ -19,7 +19,7 @@ jobs:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
           GITHUB_EVENT_PATH_CUSTOM: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
         run: |
-          BODY=$(echo "$PAYLOAD_CONTEXT" | jq .github.payload.issue.body)
+          BODY=$(echo "$PAYLOAD_CONTEXT" | jq .client_payload.github.payload.issue.body)
           echo "{\"issue\": {\"body\": $BODY}}" > $GITHUB_EVENT_PATH_CUSTOM
 
       - name: debug
