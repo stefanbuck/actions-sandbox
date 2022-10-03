@@ -16,6 +16,9 @@ jobs:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
         run: echo "$PAYLOAD_CONTEXT"
 
+      - name: echo github event path
+        run: echo $GITHUB_EVENT_PATH
+
       - name: GitHub Issue Parser
         uses: stefanbuck/github-issue-parser@f80b14f78892a66d7a35bba44f0a7d63bee03602 # pin@v2.0.4
         with:

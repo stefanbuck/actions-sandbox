@@ -12,5 +12,6 @@ jobs:
           token: ${{ secrets.PAT }}
           issue-type: issue
           permission: write
+          reactions: false
           commands: |
             approve
