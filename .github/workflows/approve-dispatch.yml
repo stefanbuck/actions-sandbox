@@ -14,11 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # pin@v2.4.2
 
-      - name: DEBUG client_payload
-        env:
-          PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
-        run: echo "$PAYLOAD_CONTEXT"
-
       - name: Get Issue Body
         env:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
@@ -26,11 +21,9 @@ jobs:
         run: |
           BODY=$(echo "$PAYLOAD_CONTEXT" | jq .github.payload.issue.body)
           echo "{\"issue\": {\"body\": $BODY}}" > $GITHUB_EVENT_PATH_CUSTOM
-
-      - name: debug
-        env:
-          GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
-        run: cat $GITHUB_EVENT_PATH
+          echo "Issue body: $BODY"
+          echo "Event path: $GITHUB_EVENT_PATH_CUSTOM"
+          cat $GITHUB_EVENT_PATH_CUSTOM
 
       - name: GitHub Issue Parser
         id: issue-parser
