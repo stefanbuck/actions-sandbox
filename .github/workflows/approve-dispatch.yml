@@ -22,6 +22,12 @@ jobs:
           BODY=$(echo "$PAYLOAD_CONTEXT" | jq -r .github.payload.issue.body)
           echo "{\"issue\": {\"body\": $BODY}}" > $GITHUB_EVENT_PATH_CUSTOM
 
+      - name: debug
+        env:
+          GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
+        run: |
+          cat $GITHUB_EVENT_PATH
+
       - name: GitHub Issue Parser
         id: issue-parser
         env:
