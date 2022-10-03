@@ -20,3 +20,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           issue_id: ${{ github.event.client_payload.github.payload.issue.number }}
           payload: yaml
+
+      - name: View Payload
+        run: echo "${{ steps.issue_body_parser.outputs.payload }}"
