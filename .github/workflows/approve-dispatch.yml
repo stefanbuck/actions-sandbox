@@ -14,21 +14,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # pin@v2.4.2
 
-      - name: Get Issue Body
-        env:
-          PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
-          GITHUB_EVENT_PATH_CUSTOM: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
+      # - name: Get Issue Body
+      #   env:
+      #     PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+      #     GITHUB_EVENT_PATH_CUSTOM: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
+      #   run: |
+      #     BODY=$(echo "$PAYLOAD_CONTEXT" | jq .github.payload.issue.body)
+      #     echo "{\"issue\": {\"body\": $BODY}}" > $GITHUB_EVENT_PATH_CUSTOM
+      #     echo "Issue body: $BODY"
+      #     echo "Event path: $GITHUB_EVENT_PATH_CUSTOM"
+      #     cat $GITHUB_EVENT_PATH_CUSTOM
+
+      - name: debug override
         run: |
-          BODY=$(echo "$PAYLOAD_CONTEXT" | jq .github.payload.issue.body)
-          echo "{\"issue\": {\"body\": $BODY}}" > $GITHUB_EVENT_PATH_CUSTOM
-          echo "Issue body: $BODY"
-          echo "Event path: $GITHUB_EVENT_PATH_CUSTOM"
-          cat $GITHUB_EVENT_PATH_CUSTOM
+          echo "{\"issue\": {\"body\": \"### Model Name\n\ncool molecule\"}}" > $GITHUB_EVENT_PATH
 
       - name: GitHub Issue Parser
         id: issue-parser
-        env:
-          GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
+        # env:
+        #   GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
         uses: stefanbuck/github-issue-parser@f80b14f78892a66d7a35bba44f0a7d63bee03602 # pin@v2.0.4
         with:
           template-path: .github/ISSUE_TEMPLATE/model_request.yml
