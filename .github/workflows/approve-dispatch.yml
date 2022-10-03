@@ -13,13 +13,11 @@ jobs:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
         run: echo "$PAYLOAD_CONTEXT"
 
-      - name: Parse Issue Body
-        uses: peter-murray/issue-body-parser-action@eb155d18ca7753f18707fb034d419f3316ee7ee2 # pin@v2
-        id: issue_body_parser
+      - name: GitHub Issue Parser
+        uses: stefanbuck/github-issue-parser@7da1c3a96e2657d61f8fdd6555ee31be7410e617 # pin@v2.0.3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          issue_id: ${{ github.event.client_payload.github.payload.issue.number }}
-          payload: yaml
+          template-path: .github/ISSUE_TEMPLATE/model_request.yml
 
-      - name: View Payload
-        run: echo "${{ steps.issue_body_parser.outputs.payload }}"
+      - run: echo "$ISSUE_CONTEXT"
+        env:
+          ISSUE_CONTEXT: ${{ steps.issue-parser.outputs.jsonString }}
