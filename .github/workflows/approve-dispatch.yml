@@ -5,7 +5,7 @@ on:
     types: [ approve-command ]
 
 env:
-  GITHUB_EVENT_PATH_CUSTOM: /home/runner/work/_temp/_github_workflow/event-custom.json
+  GITHUB_EVENT_PATH_CUSTOM: event-custom.json
 
 jobs:
   approve-command-dispatch:
@@ -24,14 +24,13 @@ jobs:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
           GITHUB_EVENT_PATH_CUSTOM: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
         run: |
-          BODY=$(echo "$PAYLOAD_CONTEXT" | jq .client_payload.github.payload.issue.body)
+          BODY=$(echo "$PAYLOAD_CONTEXT" | jq .github.payload.issue.body)
           echo "{\"issue\": {\"body\": $BODY}}" > $GITHUB_EVENT_PATH_CUSTOM
 
       - name: debug
         env:
           GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH_CUSTOM }}
-        run: |
-          cat $GITHUB_EVENT_PATH
+        run: cat $GITHUB_EVENT_PATH
 
       - name: GitHub Issue Parser
         id: issue-parser
