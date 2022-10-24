@@ -21,7 +21,7 @@ jobs:
 
       - name: Issue Template Parser
         id: issue-parser
-        uses: GrantBirki/issue-template-parser@v3.0.2
+        uses: stefanbuck/github-issue-parser@v3.0.1
         with:
           issue-body: ${{ steps.get-issue-body.outputs.body }}
           template-path: .github/ISSUE_TEMPLATE/model_request.yml
