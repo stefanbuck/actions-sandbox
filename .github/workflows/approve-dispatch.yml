@@ -15,14 +15,14 @@ jobs:
         env:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
         run: |
-          BODY=""
+          BODY="### Model Name\r\n\r\nmy cool molecule\r\n\r\n### Model Description\r\n\r\nThis is a prediction for a super cool molecule\r\n\r\n### Ersilia ID\r\n\r\neos11aa\r\n\r\n### Publication\r\n\r\nThe following link is just an example:\r\n\r\nwww.example.com\r\n\r\n### Code\r\n\r\n_No response_\r\n\r\n### License\r\n\r\n_No response_"
           echo "::set-output name=body::$BODY"
 
       - name: Issue Template Parser
         id: issue-parser
         uses: stefanbuck/github-issue-parser@v3.0.1
         with:
-          issue-body: "### Model Name\r\n\r\nmy cool molecule\r\n\r\n### Model Description\r\n\r\nThis is a prediction for a super cool molecule\r\n\r\n### Ersilia ID\r\n\r\neos11aa\r\n\r\n### Publication\r\n\r\nThe following link is just an example:\r\n\r\nwww.example.com\r\n\r\n### Code\r\n\r\n_No response_\r\n\r\n### License\r\n\r\n_No response_"
+          issue-body: ${{ steps.get-issue-body.outputs.body }}
           template-path: .github/ISSUE_TEMPLATE/model_request.yml
 
       - run: echo "$ISSUE_CONTEXT"
