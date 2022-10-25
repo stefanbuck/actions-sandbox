@@ -24,7 +24,7 @@ jobs:
         id: issue-parser
         uses: stefanbuck/github-issue-parser@v3.0.1
         with:
-          issue-body: ${{ steps.get-issue-body.outputs.body }}
+          issue-body: "${{ steps.get-issue-body.outputs.body }}"
           template-path: .github/ISSUE_TEMPLATE/model_request.yml
 
       - run: echo "$ISSUE_CONTEXT"
